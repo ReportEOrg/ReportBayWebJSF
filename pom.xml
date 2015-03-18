@@ -28,25 +28,6 @@
 			<version>7.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Apache Commons -->
-		<!-- <dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
-		</dependency> -->
-
-		<!-- Slf4j Logger -->
-		<!-- <dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.7</version>
-		</dependency> -->
 	</dependencies>
 	
 	

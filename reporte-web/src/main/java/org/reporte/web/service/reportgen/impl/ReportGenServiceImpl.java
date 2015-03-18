@@ -20,15 +20,15 @@ public class ReportGenServiceImpl extends RestServiceBaseImpl implements ReportG
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//TODO: replace with 
-	private String restServerUrl= "http://localhost:8080/report-rest/api/reportgen";
+
+	private static final String API_PREFIX= "/api/reportgen";
 	
 	//TODO: thread safe?
 	private WebTarget webTarget;
 	
 	public ReportGenServiceImpl(){
 		
-		webTarget = ClientBuilder.newClient().target(getRestServerUrl());
+		webTarget = ClientBuilder.newClient().target(getTargetRestServerBaseUri()+API_PREFIX);
 	}
 
 	/**
@@ -76,18 +76,5 @@ public class ReportGenServiceImpl extends RestServiceBaseImpl implements ReportG
 			throw new ReportGenServiceException("exception in generating report for template",e);
 		}
 		return responseReport;
-	}
-	/**
-	 * @return the restServerUrl
-	 */
-	public String getRestServerUrl() {
-		return restServerUrl;
-	}
-
-	/**
-	 * @param restServerUrl the restServerUrl to set
-	 */
-	public void setRestServerUrl(String restServerUrl) {
-		this.restServerUrl = restServerUrl;
 	}
 }

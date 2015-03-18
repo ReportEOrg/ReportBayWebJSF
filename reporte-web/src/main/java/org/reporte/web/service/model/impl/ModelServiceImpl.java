@@ -25,8 +25,7 @@ public class ModelServiceImpl extends RestServiceBaseImpl implements ModelServic
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	//TODO: replace with 
-	private String restServerUrl= "http://localhost:8080/report-rest/api/models";
+	private static final String API_PREFIX= "/api/models";
 	
 	//TODO: thread safe?
 	private WebTarget webTarget;
@@ -36,7 +35,7 @@ public class ModelServiceImpl extends RestServiceBaseImpl implements ModelServic
 	 */
 	public ModelServiceImpl(){
 		
-		webTarget = ClientBuilder.newClient().target(getRestServerUrl());
+		webTarget = ClientBuilder.newClient().target(getTargetRestServerBaseUri()+API_PREFIX);
 	}
 
 	/**
@@ -259,19 +258,4 @@ public class ModelServiceImpl extends RestServiceBaseImpl implements ModelServic
 		return uniqueValueResults;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getRestServerUrl() {
-		return restServerUrl;
-	}
-	/**
-	 * 
-	 * @param restServerUrl
-	 */
-	public void setRestServerUrl(String restServerUrl) {
-		this.restServerUrl = restServerUrl;
-	}
-
 }

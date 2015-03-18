@@ -25,14 +25,13 @@ public class ReportTemplateServiceImpl extends RestServiceBaseImpl implements Re
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	//TODO: replace with 
-	private String restServerUrl= "http://localhost:8080/report-rest/api/reportconnectors";
+	private static final String API_PREFIX= "/api/reportconnectors";
 	
 	//TODO: thread safe?
 	private WebTarget webTarget;
 	
 	public ReportTemplateServiceImpl(){
-		webTarget = ClientBuilder.newClient().target(getRestServerUrl());
+		webTarget = ClientBuilder.newClient().target(getTargetRestServerBaseUri()+API_PREFIX);
 	}
 
 	/**
@@ -160,19 +159,5 @@ public class ReportTemplateServiceImpl extends RestServiceBaseImpl implements Re
 		
 		return deleted;
 		
-	}
-	
-	/**
-	 * @return the restServerUrl
-	 */
-	public String getRestServerUrl() {
-		return restServerUrl;
-	}
-
-	/**
-	 * @param restServerUrl the restServerUrl to set
-	 */
-	public void setRestServerUrl(String restServerUrl) {
-		this.restServerUrl = restServerUrl;
 	}
 }

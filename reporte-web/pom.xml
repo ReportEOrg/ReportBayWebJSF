@@ -59,14 +59,12 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
-<!-- 			<scope>provided</scope> -->
 		</dependency>
 		
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.1</version>
-			<!-- <scope>provided</scope> -->
 		</dependency>
 	  
 	  	<!-- Slf4j Logger -->
@@ -74,7 +72,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.7</version>
-			<!-- <scope>provided</scope> -->
 		</dependency>
 	  	<!-- End of explicitly exclude as already present in the common jar -->
 	  	

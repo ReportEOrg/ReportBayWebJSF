@@ -27,14 +27,13 @@ public class DataSourceServiceImpl extends RestServiceBaseImpl implements DataSo
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	//TODO: replace with 
-	private String restServerUrl= "http://localhost:8080/report-rest/api/datasources";
+	private static final String API_PREFIX= "/api/datasources";
 	
 	//TODO: thread safe?
 	private WebTarget webTarget;
 	
 	public DataSourceServiceImpl(){
-		webTarget = ClientBuilder.newClient().target(getRestServerUrl());
+		webTarget = ClientBuilder.newClient().target(getTargetRestServerBaseUri()+API_PREFIX);
 	}
 
 	@Override
@@ -171,19 +170,5 @@ public class DataSourceServiceImpl extends RestServiceBaseImpl implements DataSo
 			throw new DataSourceServiceException("exception in finding datasource",e);
 		}
 		return tableNameList;
-	}
-
-	/**
-	 * @return the restServerUrl
-	 */
-	public String getRestServerUrl() {
-		return restServerUrl;
-	}
-
-	/**
-	 * @param restServerUrl the restServerUrl to set
-	 */
-	public void setRestServerUrl(String restServerUrl) {
-		this.restServerUrl = restServerUrl;
 	}
 }
