@@ -47,7 +47,8 @@
 			<p:layoutUnit id="centerCenter" position="center" styleClass="center-center-layout">
 				<p:panelGrid columns="1" styleClass="container-grid" >  
 					<h:form id="centerForm">
-						<p:panel id="viewTemplateDetailPanel" header="View Report Template Details" styleClass="view-container-grid" 
+
+						<p:panel id="viewTemplateDetailPanel" header="Report Template Details" styleClass="view-container-grid" 
 								 rendered="#{not empty maintainReportTemplate.filteredReportTemplateList}">
 							<p:spacer width="100%" height="15px" />
 							<p:tabView id="center-tabview-details" styleClass="center-tabview-details">
@@ -171,7 +172,7 @@
 								
 								<p:tab title="Preview">
 									<p:panel>
-										<p:chart type="#{maintainReportTemplate.reportTemplate.chartType.code}" model="#{maintainReportTemplate.chartModel}" style="height:400px;" />
+										<p:chart type="#{maintainReportTemplate.reportTemplate.chartType.code}" model="#{maintainReportTemplate.chartModel}" style="height:400px; width:98%; margin-left: auto; margin-right: auto;" />
 									</p:panel>
 								</p:tab>
 							</p:tabView>

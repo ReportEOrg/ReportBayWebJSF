@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.reporte.web.dto.reportgen.Report;
-import org.reporte.web.dto.reporttemplate.ReportTemplate;
+import org.reporte.web.dto.reporttemplate.RestReportTemplate;
 import org.reporte.web.service.RestServiceBaseImpl;
 import org.reporte.web.service.reportgen.ReportGenService;
 import org.reporte.web.service.reportgen.exception.ReportGenServiceException;
@@ -57,11 +57,11 @@ public class ReportGenServiceImpl extends RestServiceBaseImpl implements ReportG
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Report generateReportPreview(ReportTemplate reportTemplate) throws ReportGenServiceException{
+	public Report generateReportPreview(RestReportTemplate restReportTemplate) throws ReportGenServiceException{
 		Report responseReport = null;
 		
 		//create a request body from model object as entity of type application/json
-		final Entity<ReportTemplate> entity = Entity.entity(reportTemplate, MediaType.APPLICATION_JSON_TYPE);
+		final Entity<RestReportTemplate> entity = Entity.entity(restReportTemplate, MediaType.APPLICATION_JSON_TYPE);
 
 		try{
 			Response response = webTarget.path("/generateReportPreview")

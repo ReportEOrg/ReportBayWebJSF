@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.reporte.web.dto.reporttemplate.LiteReportTemplate;
 import org.reporte.web.dto.reporttemplate.ReportTemplate;
+import org.reporte.web.dto.reporttemplate.RestReportTemplate;
 import org.reporte.web.service.reporttemplate.exception.ReportTemplateServiceException;
 
 public interface ReportTemplateService extends Serializable{
@@ -47,4 +48,20 @@ public interface ReportTemplateService extends Serializable{
 	 * @throws ReportTemplateServiceException
 	 */
 	boolean delete(ReportTemplate reportTemplate) throws ReportTemplateServiceException;
+	
+	/**
+	 * 
+	 * @param restTemplate
+	 * @return
+	 * @throws ReportTemplateServiceException
+	 */
+	ReportTemplate mapRestToUIReportTemplate(RestReportTemplate restTemplate) throws ReportTemplateServiceException;
+	
+	/**
+	 * 
+	 * @param template
+	 * @return
+	 * @throws ReportTemplateServiceException
+	 */
+	RestReportTemplate mapUIToRestReportTemplate(ReportTemplate template) throws ReportTemplateServiceException;
 }

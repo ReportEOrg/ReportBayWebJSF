@@ -31,6 +31,7 @@ import org.reporte.web.dto.model.AttributeMapping;
 import org.reporte.web.dto.model.Model;
 import org.reporte.web.dto.reportgen.Report;
 import org.reporte.web.dto.reporttemplate.ReportTemplate;
+import org.reporte.web.dto.reporttemplate.RestReportTemplate;
 import org.reporte.web.dto.reporttemplate.TemplateSeries;
 import org.reporte.web.service.model.ModelService;
 import org.reporte.web.service.model.exception.ModelServiceException;
@@ -342,6 +343,9 @@ public class ReportTemplateWizardBean implements Serializable{
 			try{
 				generatePreview();
 			}
+			catch(ReportTemplateServiceException rtse){
+				LOG.error("failed convert ui to REST for report preview generation", rtse);
+			}
 			catch(ReportGenServiceException rgse){
 				LOG.error("failed report preview generation", rgse);
 				//TODO: handling
@@ -356,9 +360,10 @@ public class ReportTemplateWizardBean implements Serializable{
 	
 	/**
 	 * @throws ReportGenServiceException 
+	 * @throws ReportTemplateServiceException 
 	 * 
 	 */
-	private void generatePreview() throws ReportGenServiceException{
+	private void generatePreview() throws ReportGenServiceException, ReportTemplateServiceException{
 		ChartTypeEnum chartType = ChartTypeEnum.fromName(selectedChartType);
 		
 		if(chartType!=null){
@@ -378,7 +383,8 @@ public class ReportTemplateWizardBean implements Serializable{
 			}
 		}
 		
-		Report report = reportGenService.generateReportPreview(reportTemplate);
+		RestReportTemplate restReportTemplate = reportTemplateService.mapUIToRestReportTemplate(reportTemplate);
+		Report report = reportGenService.generateReportPreview(restReportTemplate);
 		
 		if(report!=null){
 			String type = report.getType();

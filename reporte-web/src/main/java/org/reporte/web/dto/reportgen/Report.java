@@ -15,6 +15,7 @@ public class Report implements Serializable{
 	
 	private CartesianChartReport cartesianChartReport;
 	private PieChartReport pieChartReport;
+	private CrossTabReport crossTabReport;
 
 	/**
 	 * @return the type
@@ -56,5 +57,19 @@ public class Report implements Serializable{
 	 */
 	public void setPieChartReport(PieChartReport pieChartReport) {
 		this.pieChartReport = pieChartReport;
+	}
+
+	/**
+	 * @return the crossTabReport
+	 */
+	public CrossTabReport getCrossTabReport() {
+		return crossTabReport;
+	}
+
+	/**
+	 * @param crossTabReport the crossTabReport to set
+	 */
+	public void setCrossTabReport(CrossTabReport crossTabReport) {
+		this.crossTabReport = crossTabReport;
 	}
 }
