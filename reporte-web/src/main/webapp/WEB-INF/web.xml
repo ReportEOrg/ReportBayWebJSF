@@ -54,7 +54,18 @@
 	<!-- Mime-mapping for awesome font -->
 	<mime-mapping>
         <extension>woff</extension>
-        <mime-type>application/font-woff</mime-type>
+        <mime-type>application/x-woff</mime-type>
 	</mime-mapping>
-
+	<mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/octet-stream</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+        <extension>eot</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
 </web-app>
