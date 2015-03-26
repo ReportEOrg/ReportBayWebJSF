@@ -60,21 +60,21 @@ public class MaintainReportTemplateBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		loadReportTemplates();
+		initReportTemplateList();
 	}
 
+	/**
+	 * 
+	 */
 	public void createNewReportTemplate() {
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("title", "New Report Template");
+		params.put("title", "New Report Connector");
 		openNewReportTemplateDialog(params);
 	}
 
-
-	public String loadReportTemplates() {
-		initReportTemplateList();
-		return "/views/template/manage_report_templates.xhtml?faces-redirect=true";
-	}
-
+	/**
+	 * 
+	 */
 	private void initReportTemplateList() {
 		try {
 			//1. clear existing list
@@ -131,10 +131,17 @@ public class MaintainReportTemplateBean implements Serializable {
 //		openNewReportTemplateDialog(params);
 	}
 
+	/**
+	 * 
+	 */
 	public void refresh() {
 		initReportTemplateList();
 	}
 
+	/**
+	 * 
+	 * @param params
+	 */
 	private void openNewReportTemplateDialog(Map<String, String> params) {
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("modal", true);
@@ -166,6 +173,10 @@ public class MaintainReportTemplateBean implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void filterExtReportTemplates(AjaxBehaviorEvent event) {
 		if (event.getSource() instanceof HtmlInputText) {
 			
@@ -185,6 +196,10 @@ public class MaintainReportTemplateBean implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void onDialogReturn(SelectEvent event) {
 		refresh();
 	}
@@ -222,10 +237,18 @@ public class MaintainReportTemplateBean implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ChartModel getChartModel() {
 		return chartModel;
 	}
 
+	/**
+	 * 
+	 * @param chartModel
+	 */
 	public void setChartModel(ChartModel chartModel) {
 		this.chartModel = chartModel;
 	}

@@ -18,16 +18,16 @@
 					<p:outputLabel value="&#160;" />
 					<p:outputLabel styleClass="fa fa-clipboard" />
 					<p:outputLabel value="&#160;&#160;" />
-					<p:outputLabel value="Report Templates" style="font-size:9pt;" />
-					<p:commandButton title="Refresh Templates" icon="ui-icon ui-icon-refresh" action="#{maintainReportTemplate.refresh}" style="float:right;width:18px;height:18px;margin-top:-2px;"
+					<p:outputLabel value="Report Connectors" style="font-size:9pt;" />
+					<p:commandButton title="Refresh Connectors" icon="ui-icon ui-icon-refresh" action="#{maintainReportTemplate.refresh}" style="float:right;width:18px;height:18px;margin-top:-2px;"
 						update=":westForm,:centerForm" />
 				</f:facet>
 				<h:form id="westForm">
 					<h:panelGrid style="text-align:center;" columns="2" id="searchCont">
-						<p:inputText id="searchReportTemplate" placeholder="Search Template.." size="46">
+						<p:inputText id="searchReportTemplate" placeholder="Search Connectors.." size="46">
 							<p:ajax event="keyup" listener="#{maintainReportTemplate.filterExtReportTemplates}" update=":westForm:extReportTemps" />
 						</p:inputText>
-						<p:commandLink id="addNewReport" title="Add New Report Template" action="#{maintainReportTemplate.createNewReportTemplate}">
+						<p:commandLink id="addNewReport" title="Add New Report Connector" action="#{maintainReportTemplate.createNewReportTemplate}">
 							<p:ajax event="dialogReturn" listener="#{maintainReportTemplate.onDialogReturn}" update=":westForm,:centerForm" />
 							<h:graphicImage library="reporte" name="images/addnew-icon.png" height="25" style="margin-top:4px;" />
 						</p:commandLink>
@@ -48,7 +48,7 @@
 				<p:panelGrid columns="1" styleClass="container-grid" >  
 					<h:form id="centerForm">
 
-						<p:panel id="viewTemplateDetailPanel" header="Report Template Details" styleClass="view-container-grid" 
+						<p:panel id="viewTemplateDetailPanel" header="Report Connector Details" styleClass="view-container-grid" 
 								 rendered="#{not empty maintainReportTemplate.filteredReportTemplateList}">
 							<p:spacer width="100%" height="15px" />
 							<p:tabView id="center-tabview-details" styleClass="center-tabview-details">
@@ -58,7 +58,7 @@
 										<p:spacer width="100%" height="50px" />
 										<h:panelGrid id="chartInfoOut" columns="1" rowClasses="vertical-align-top" style="margin-left:200px;boder:1px solid black;">
 											<p:panelGrid id="chartInfoIn" columns="2" columnClasses="label, value" cellpadding="6">
-												<h:outputLabel value="Template Name :" styleClass="manageTemplateLabel" />
+												<h:outputLabel value="Report Connector Name :" styleClass="manageTemplateLabel" />
 												<h:outputText id="templateName" value="#{maintainReportTemplate.reportTemplate.name}" styleClass="manageTemplateValue" />
 												<h:outputLabel value="Chart Type :" styleClass="manageTemplateLabel" />
 												<h:panelGrid columns="2">
