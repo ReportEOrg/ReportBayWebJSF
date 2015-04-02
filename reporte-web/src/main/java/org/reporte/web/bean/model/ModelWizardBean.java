@@ -91,10 +91,10 @@ public class ModelWizardBean implements Serializable {
 				tableNames = dataSourceService.findDataSourceTableName(model.getDatasource());
 			} 
 			catch (ModelServiceException e) {
-				LOG.error("Error loading model with given Id[" + modelId + "].",e);
+				LOG.error("Error loading model with given Id[{}].",modelId,e);
 			}
 			catch(DataSourceServiceException e){
-				LOG.error("Error loading datasource table name with given model id [" + modelId + "].",e);
+				LOG.error("Error loading datasource table name with given model id [{}].",modelId,e);
 			}
 		} else {
 			initNewModel();
@@ -321,7 +321,7 @@ public class ModelWizardBean implements Serializable {
 			try {
 				tableNames = dataSourceService.findDataSourceTableName(selectedDatasource);
 			} catch (DataSourceServiceException e) {
-				LOG.error("Failed to load available table names for selected Datasource with name["+ selectedDatasource.getName() + "].", e);
+				LOG.error("Failed to load available table names for selected Datasource with name[{}].",selectedDatasource.getName(), e);
 				tableNames = new ArrayList<String>();
 			}
 			setRequiredDatasource(false);
@@ -346,7 +346,7 @@ public class ModelWizardBean implements Serializable {
 				model = modelService.deriveModelQueryAttributes(model);
 				columnNames = model.getAttributeBindings();
 			} catch (ModelServiceException e) {
-				LOG.error("Failed to load metadata columns for the table - "+ tableName + ".");
+				LOG.error("Failed to load metadata columns for the table - {}.",tableName);
 				columnNames = new ArrayList<AttributeMapping>();
 			}
 
@@ -414,7 +414,7 @@ public class ModelWizardBean implements Serializable {
 			WebUtils.addInfoMessage("Query verification was successful.");
 		} 
 		catch(ModelServiceException mse){
-			LOG.error("Query verification failed. Parsed query = ["+ model.getQuery().getJoinQuery() + "].", mse);
+			LOG.error("Query verification failed. Parsed query = [{}].",model.getQuery().getJoinQuery(), mse);
 			WebUtils.addErrorMessage(mse.getCause().getMessage());
 		}
 	}
@@ -443,7 +443,7 @@ public class ModelWizardBean implements Serializable {
 			resultSet = applyLimit(originalResultSet, limit);
 		}
 		catch(ModelServiceException mse){
-			LOG.error("Query verification failed. Parsed query = ["+ model.getQuery().getJoinQuery() + "].", mse);
+			LOG.error("Query verification failed. Parsed query = [{}].",model.getQuery().getJoinQuery(), mse);
 			WebUtils.addErrorMessage(mse.getCause().getMessage());
 		}
 	}
@@ -477,7 +477,7 @@ public class ModelWizardBean implements Serializable {
 			//successfully save, clear the backing bean's model info for next entry
 			initNewModel();
 		} catch (ModelServiceException e) {
-			LOG.error("Failed to " + action + " Model.", e);
+			LOG.error("Failed to {} Model.",action, e);
 			status = "failed";
 		}
 		//in even of error must close the dialog too

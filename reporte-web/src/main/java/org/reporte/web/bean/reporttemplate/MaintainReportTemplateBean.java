@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.SelectEvent;
@@ -31,6 +30,8 @@ import org.reporte.web.service.reporttemplate.ReportTemplateService;
 import org.reporte.web.service.reporttemplate.exception.ReportTemplateServiceException;
 import org.reporte.web.util.ReportUtil;
 import org.reporte.web.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Report Template JSF Backing bean
@@ -40,7 +41,7 @@ import org.reporte.web.util.WebUtils;
 @ViewScoped
 public class MaintainReportTemplateBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(MaintainReportTemplateBean.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MaintainReportTemplateBean.class);
 
 	private ChartModel chartModel;
 	

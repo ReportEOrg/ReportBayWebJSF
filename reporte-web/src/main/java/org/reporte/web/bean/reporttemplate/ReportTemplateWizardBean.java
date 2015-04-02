@@ -133,7 +133,7 @@ public class ReportTemplateWizardBean implements Serializable{
 	 * @param event
 	 */
 	public void handleModelChange(AjaxBehaviorEvent event) {
-		LOG.info("model changed "+selectedModel);
+		LOG.info("model changed {}",selectedModel);
 		
 		Model model = availableModelMap.get(selectedModel);
 		
