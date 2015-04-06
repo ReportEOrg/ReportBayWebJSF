@@ -53,7 +53,7 @@
 			<version>2.2</version>
 		</dependency>
 		
-		<!-- Start of explicitly exclude as already present in the common jar -->
+
 		<!-- Apache Commons -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -67,13 +67,47 @@
 			<version>3.2.1</version>
 		</dependency>
 	  
-	  	<!-- Slf4j Logger -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.7</version>
+		<!-- log4j2 to slf4j bridge -->
+	  	<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
 		</dependency>
-	  	<!-- End of explicitly exclude as already present in the common jar -->
-	  	
-	  </dependencies> 
+		
+		<!-- log4j2 core implementation (only required during runtime) -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- lmax disruptor for log4j2 async logger -->		
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>3.3.2</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<!-- temporary disabled due to wildfly 8's bugs https://issues.jboss.org/browse/WFLY-4089 --> 
+		<!--
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-web</artifactId>
+			<scope>runtime</scope>
+		</dependency> 
+		-->
+	</dependencies> 
+	  
+	<!-- Bill of material for log4j2 -->
+ 	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-bom</artifactId>
+				<version>2.2</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
