@@ -10,6 +10,10 @@ body {
 	font-size: 10pt;
 }
 
+.font-size-medium {
+	font-size: 12pt;
+}
+
 .ui-widget .ui-widget-content {
 	/* 	border: none !important; */
 	padding: 0 !important;

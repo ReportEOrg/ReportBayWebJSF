@@ -15,8 +15,8 @@ public class LiteReportTemplate implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
-	
 	private String name;
+	private String reportDisplayName;
 
 	/**
 	 * @return the id
@@ -44,5 +44,13 @@ public class LiteReportTemplate implements Serializable{
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getReportDisplayName() {
+		return reportDisplayName;
+	}
+
+	public void setReportDisplayName(String reportDisplayName) {
+		this.reportDisplayName = reportDisplayName;
 	}
 }

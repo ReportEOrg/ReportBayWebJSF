@@ -57,7 +57,7 @@ public class MaintainModelBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-
+		LOG.info("init");
 		Model refModel = initTreeNode(null,null);
 		
 		if(refModel !=null){
@@ -73,18 +73,11 @@ public class MaintainModelBean implements Serializable {
 	 * initialize the tree node(s) for Left hand side panel representing model(s) under respective datasource(s)
 	 */
 	private Model initTreeNode(String refDatasourceName, String refModelName){
+		LOG.info("initTreeNode");
 		
 		Model refModel = null;
-//		//1. create the root node
-//		modelTreeRoot = new DefaultTreeNode("Root",null);
 		
 		try {
-//			//TreeMap is implementing sortedMap 
-//			Map<String, TreeNode> dataSourceNodeLookupMap = new TreeMap<String, TreeNode>();
-//			String datasourceName;
-//			TreeNode datasourceNode;
-//			TreeNode modelNode;
-
 			//TODO: source datasource w/o model displayed too?
 			//1. obtain all model(s) order by datasource name, model name
 			List<Model> allModels = modelService.findAllOrderByDatasourceName();
@@ -96,42 +89,6 @@ public class MaintainModelBean implements Serializable {
 			refAllModels.addAll(allModels);
 			
 			refModel = rebuildTreeNode(refDatasourceName, refModelName, null);
-			
-//			//3. for each model
-//			for (Model model : allModels) {
-//				
-//				datasourceName = model.getDatasource().getName();
-//
-//				//3.a obtain datasource node based on datasource name
-//				datasourceNode = dataSourceNodeLookupMap.get(datasourceName);
-//				
-//				//3.b not yet exist create one
-//				if(datasourceNode==null){
-//					datasourceNode = new DefaultTreeNode(datasourceName,modelTreeRoot);
-//					dataSourceNodeLookupMap.put(datasourceName,datasourceNode);
-//				}
-//				
-//				//3.c create and append model node under datasource node
-//				modelNode = new DefaultTreeNode("modelNode", model, datasourceNode);
-//				datasourceNode.getChildren().add(modelNode);
-//				
-//				//not yet identify reference
-//				if(refModel == null
-//				   &&
-//				  //i. if not specified used first model found as reference
-//				  ((refDatasourceName == null && refModelName ==null) 
-//				   || 
-//				   //ii. if specified and match, made model as reference
-//				   (refDatasourceName!=null && refDatasourceName.equals(datasourceName) &&
-//					refModelName!=null && refModelName.equals(model.getName())))
-//				  )
-//				{
-//					refModel = model;
-//					
-//					datasourceNode.setExpanded(true);
-//					modelNode.setSelected(true);
-//				}
-//			}
 		}
 		catch (ModelServiceException e) {
 			LOG.error("Failed to load all existing Models.", e);
@@ -140,10 +97,17 @@ public class MaintainModelBean implements Serializable {
 		return refModel;
 	}
 	
+	/**
+	 * 
+	 * @param refDatasourceName
+	 * @param refModelName
+	 * @param filterKeywords
+	 * @return
+	 */
 	private Model rebuildTreeNode(String refDatasourceName, 
 								  String refModelName, 
 								  String filterKeywords){
-		
+		LOG.info("rebuildTreeNode");
 		Model refModel = null;
 		
 		//TreeMap is implementing sortedMap 
@@ -204,6 +168,10 @@ public class MaintainModelBean implements Serializable {
 		return refModel;
 	}
 	
+	/**
+	 * 
+	 * @param params
+	 */
 	private void openModelWizardDialog(Map<String, String> params) {
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("modal", true);
@@ -221,6 +189,9 @@ public class MaintainModelBean implements Serializable {
 		RequestContext.getCurrentInstance().openDialog("model_wizard", options, requestParams);
 	}
 
+	/**
+	 * 
+	 */
 	public void addModel() {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("title", "New Model");
@@ -228,6 +199,10 @@ public class MaintainModelBean implements Serializable {
 		openModelWizardDialog(params);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 */
 	public void updateModel(String id) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("title", "Update Model");
@@ -236,6 +211,9 @@ public class MaintainModelBean implements Serializable {
 		openModelWizardDialog(params);
 	}
 
+	/**
+	 * 
+	 */
 	public void deleteModel() {
 		String tableName= model.getName();
 		try {
@@ -256,6 +234,10 @@ public class MaintainModelBean implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void onDialogReturn(SelectEvent event) {
 		@SuppressWarnings("unchecked")
 		Map<String, String> data = (Map<String, String>) event.getObject();
@@ -281,6 +263,10 @@ public class MaintainModelBean implements Serializable {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param event
+	 */
 	public void filterModels(AjaxBehaviorEvent event) {
 		if (event.getSource() instanceof HtmlInputText) {
 			
