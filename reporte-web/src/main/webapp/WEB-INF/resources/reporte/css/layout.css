@@ -197,18 +197,18 @@
 	display: none;
 	background: #808080;
 	padding: 10px;
-	border: 2px solid #ddd;
+	border: 2px solid #dddddd;
 	float: left;
 	font-size: 1.2em;
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	z-index: 99999;
-	box-shadow: 0px 0px 20px #999;
+	box-shadow: 0px 0px 20px #999999;
 	/* CSS3 */
-	-moz-box-shadow: 0px 0px 20px #999;
+	-moz-box-shadow: 0px 0px 20px #999999;
 	/* Firefox */
-	-webkit-box-shadow: 0px 0px 20px #999;
+	-webkit-box-shadow: 0px 0px 20px #999999;
 	/* Safari, Chrome */
 	border-radius: 3px 3px 3px 3px;
 	-moz-border-radius: 3px;
@@ -244,11 +244,11 @@ form.signin p, form.signin span {
 
 form.signin .textbox input {
 	background: #666666;
-	border-bottom: 1px solid #333;
-	border-left: 1px solid #000;
-	border-right: 1px solid #333;
-	border-top: 1px solid #000;
-	color: #fff;
+	border-bottom: 1px solid #333333;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #333333;
+	border-top: 1px solid #000000;
+	color: #ffffff;
 	border-radius: 3px 3px 3px 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -258,13 +258,13 @@ form.signin .textbox input {
 }
 
 form.signin input:-moz-placeholder {
-	color: #bbb;
-	text-shadow: 0 0 2px #000;
+	color: #bbbbbb;
+	text-shadow: 0 0 2px #000000;
 }
 
 form.signin input::-webkit-input-placeholder {
-	color: #bbb;
-	text-shadow: 0 0 2px #000;
+	color: #bbbbbb;
+	text-shadow: 0 0 2px #000000;
 }
 
 .button {
@@ -274,12 +274,12 @@ form.signin input::-webkit-input-placeholder {
 	background: -o-linear-gradient(top, #f3f3f3, #dddddd);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f3f3f3',
 		EndColorStr='#dddddd');
-	border-color: #000;
+	border-color: #000000;
 	border-width: 1px;
 	border-radius: 4px 4px 4px 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
-	color: #333;
+	color: #333333;
 	cursor: pointer;
 	display: inline-block;
 	padding: 6px 6px 4px;
@@ -289,7 +289,7 @@ form.signin input::-webkit-input-placeholder {
 }
 
 .button:hover {
-	background: #ddd;
+	background: #dddddd;
 }
 
 /*Accordion Start*/
@@ -314,18 +314,18 @@ ul.accordion li {
 	height: 500px;
 	display: block;
 	padding: 0;
-	border-right: 2px solid #fff;
-	border-bottom: 2px solid #fff;
-	background-color: #fff;
+	border-right: 2px solid #ffffff;
+	border-bottom: 2px solid #ffffff;
+	background-color: #ffffff;
 	background-repeat: no-repeat;
 	background-position: center center;
 	position: relative;
 	overflow: hidden;
 	cursor: pointer;
-	-moz-box-shadow: 1px 3px 15px #555;
-	-webkit-box-shadow: 1px 3px 15px #555;
-	box-shadow: 1px 3px 15px #555;
-	border-right: 2px solid #fff;
+	-moz-box-shadow: 1px 3px 15px #555555;
+	-webkit-box-shadow: 1px 3px 15px #555555;
+	box-shadow: 1px 3px 15px #555555;
+	border-right: 2px solid #ffffff;
 }
 
 ul.accordion li.bg1 {
@@ -372,7 +372,7 @@ ul.accordion li .heading {
 	font-size: 14px;
 	color: white;
 	text-align: center;
-	text-shadow: -1px -1px 1px #ccc;
+	text-shadow: -1px -1px 1px #cccccc;
 	background: rgb(15, 82, 136); /* Old browsers */
 	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
 	background:
@@ -442,10 +442,10 @@ ul.accordion li .description h2 {
 	font-weight: bold;
 	letter-spacing: 1px;
 	font-size: 45px;
-	color: #444;
+	color: #444444;
 	text-align: left;
 	margin: 0px 0px 15px 20px;
-	text-shadow: -1px -1px 1px #ccc;
+	text-shadow: -1px -1px 1px #cccccc;
 }
 
 ul.accordion li .description p {

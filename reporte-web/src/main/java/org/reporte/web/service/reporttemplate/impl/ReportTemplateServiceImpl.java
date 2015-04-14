@@ -289,6 +289,8 @@ public class ReportTemplateServiceImpl extends RestServiceBaseImpl implements Re
 		target.setyAxisTitle(source.getYaxisTitle());
 		target.setShowXAxis(source.isShowXAxis());;
 		target.setShowYAxis(source.isShowYAxis());
+
+		target.setShowDataLabel(source.isShowDataLabel());
 		target.setModelDataLabelField(source.getModelDataLabelField());
 		target.setModelDataValueField(source.getModelDataValueField());
 		target.setModelSeriesGroupField(source.getModelSeriesGroupField());
@@ -387,6 +389,8 @@ public class ReportTemplateServiceImpl extends RestServiceBaseImpl implements Re
 		target.setYaxisTitle(source.getyAxisTitle());
 		target.setShowXAxis(source.isShowXAxis());;
 		target.setShowYAxis(source.isShowYAxis());
+
+		target.setShowDataLabel(source.isShowDataLabel());
 		target.setModelDataLabelField(source.getModelDataLabelField());
 		target.setModelDataValueField(source.getModelDataValueField());
 		target.setModelSeriesGroupField(source.getModelSeriesGroupField());

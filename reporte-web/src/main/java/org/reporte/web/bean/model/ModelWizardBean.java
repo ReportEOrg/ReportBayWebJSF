@@ -402,7 +402,12 @@ public class ModelWizardBean implements Serializable {
 
 		try {
 			
-			model = modelService.deriveModelQueryAttributes(model);
+			Model resultModel = modelService.deriveModelQueryAttributes(model);
+
+			if(resultModel==null){
+				WebUtils.addErrorMessage("Error verifying query");
+			}
+			model = resultModel;
 			columnNames = model.getAttributeBindings();
 			
 			generatePreview(model);
