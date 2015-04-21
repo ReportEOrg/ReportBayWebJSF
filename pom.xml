@@ -59,6 +59,56 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<!-- Git repo is checked out into /var/lib/openshift/54895edffcf933029d000179/app-root/runtime/repo 
+							and Maven is started in this directory. Deployable artifacts, mainly ROOT.war, 
+							must be copied into /var/lib/openshift/54895edffcf933029d000179/app-root/runtime/repo/webapps/ROOT.war 
+							Because web-app is module in subdirectory and I would expect <outputDirectory>../webapps</outputDirectory> 
+							value but interestingly it is not true and it must be <outputDirectory>webapps</outputDirectory> -->
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-ear-plugin</artifactId>
+							<version>2.10</version>
+							<!-- configuring the ear plugin -->
+							<configuration>
+								<finalName>reporte</finalName>
+								<defaultLibBundleDir>lib</defaultLibBundleDir>
+								<skinnyWars>false</skinnyWars>
+								<outputDirectory>deployments</outputDirectory>
+								<modules>
+									<webModule>
+										<groupId>reporte-ui</groupId>
+										<artifactId>reporte-web</artifactId>
+										<contextRoot>/</contextRoot>
+									</webModule>
+								</modules>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-ejb-plugin</artifactId>
+							<version>2.5</version>
+							<configuration>
+								<ejbVersion>3.2</ejbVersion>
+								<archive>
+									<manifest>
+										<addClasspath>true</addClasspath>
+									</manifest>
+								</archive>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-enforcer-plugin</artifactId>
+							<configuration>
+								<skip>true</skip>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
 			<repositories>
 				<repository>
 					<id>savvis-cto-metagroup</id>
@@ -93,19 +143,6 @@
 				<nexus.url>http://code.it.savvis.net/nexus/content</nexus.url>
 				<owb.version>1.2.6</owb.version>
 			</properties>
-
-			<build>
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<artifactId>maven-war-plugin</artifactId>
-							<configuration>
-								<warName>reporte</warName>
-							</configuration>
-						</plugin>
-					</plugins>
-				</pluginManagement>
-			</build>
 		</profile>
 		
 		<!-- openshift jenkins build profile -->
@@ -136,7 +173,7 @@
 									<webModule>
 										<groupId>reporte-ui</groupId>
 										<artifactId>reporte-web</artifactId>
-										<contextRoot>reporte</contextRoot>
+										<contextRoot>/</contextRoot>
 									</webModule>
 								</modules>
 							</configuration>
