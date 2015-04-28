@@ -2,15 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>reporte-ui</groupId>
-	<artifactId>reporte-ui</artifactId>
+	<groupId>reportbay-web</groupId>
+	<artifactId>reportbay-web-jsf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>ReportE UI Project</name>
+	<name>ReportBay Web JSF Project</name>
 
 	<modules>
-		<module>reporte-web</module>
-		<module>reporte-ear</module>
+		<module>reportbay-web</module>
+		<module>reportbay-ear</module>
 	</modules>
 	
 	<dependencies>
@@ -73,14 +73,14 @@
 							<version>2.10</version>
 							<!-- configuring the ear plugin -->
 							<configuration>
-								<finalName>reporte</finalName>
+								<finalName>reportbay</finalName>
 								<defaultLibBundleDir>lib</defaultLibBundleDir>
 								<skinnyWars>false</skinnyWars>
 								<outputDirectory>deployments</outputDirectory>
 								<modules>
 									<webModule>
-										<groupId>reporte-ui</groupId>
-										<artifactId>reporte-web</artifactId>
+										<groupId>reportbay-web</groupId>
+										<artifactId>reportbay-web-jsf-web</artifactId>
 										<contextRoot>/</contextRoot>
 									</webModule>
 								</modules>
@@ -165,14 +165,14 @@
 							<version>2.10</version>
 							<!-- configuring the ear plugin -->
 							<configuration>
-								<finalName>reporte</finalName>
+								<finalName>reportbay</finalName>
 								<defaultLibBundleDir>lib</defaultLibBundleDir>
 								<skinnyWars>false</skinnyWars>
 								<outputDirectory>deployments</outputDirectory>
 								<modules>
 									<webModule>
-										<groupId>reporte-ui</groupId>
-										<artifactId>reporte-web</artifactId>
+										<groupId>reportbay-web</groupId>
+										<artifactId>reportbay-web-jsf-web</artifactId>
 										<contextRoot>/</contextRoot>
 									</webModule>
 								</modules>
