@@ -4,9 +4,9 @@ import javax.ws.rs.core.Response;
 
 public class RestServiceBaseImpl{
 	
-//	private String targetRestServerBaseUri = "http://localhost:8080/reporte-rest";
+//	private String targetRestServerBaseUri = "http://localhost:8080/reportbay-rest";
 	
-	private String targetRestServerBaseUri = "http://reporte-staginguat.rhcloud.com/reporte-rest";
+	private String targetRestServerBaseUri = "http://reporte-staginguat.rhcloud.com/reportbay-rest";
 	
 	/**
 	 * @return the targetRestServerBaseUri
