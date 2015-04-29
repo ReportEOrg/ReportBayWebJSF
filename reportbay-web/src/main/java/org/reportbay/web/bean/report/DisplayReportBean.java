@@ -1,31 +1,25 @@
 package org.reportbay.web.bean.report;
 
-import java.awt.image.RenderedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.codec.binary.Base64;
 import org.primefaces.model.chart.ChartModel;
 import org.reportbay.web.common.ChartTypeEnum;
+import org.reportbay.web.dto.publish.Publish;
 import org.reportbay.web.dto.reportgen.Report;
 import org.reportbay.web.dto.reporttemplate.ReportTemplate;
 import org.reportbay.web.dto.reporttemplate.RestReportTemplate;
 import org.reportbay.web.service.publish.PublishService;
 import org.reportbay.web.service.publish.exception.PublishServiceException;
-import org.reportbay.web.service.publish.impl.DropBoxPublishServiceImpl;
 import org.reportbay.web.service.reportgen.ReportGenService;
 import org.reportbay.web.service.reportgen.exception.ReportGenServiceException;
 import org.reportbay.web.service.reporttemplate.ReportTemplateService;
@@ -61,6 +55,9 @@ public class DisplayReportBean implements Serializable{
 	
 	@Inject
 	private ReportTemplateService reportTemplateService;
+	
+	@Inject
+	private PublishService publishService;
 
 	public void init() {
 		// Retrieve the params passed via Dialog Framework.
@@ -126,101 +123,58 @@ public class DisplayReportBean implements Serializable{
 	//call back action handler
 	public void publishToExternal(ActionEvent event){
 		
+		List<String> errorList = new ArrayList<String>();
+		
 		if(chartImageBase64!=null && chartImageBase64.split(",").length > 1){
-			
-			List<String> errorList = new ArrayList<String>();
 			
 			String encoded = chartImageBase64.split(",")[1];
 			
-			//1. decode the base64 string image
-			byte[] decoded = Base64.decodeBase64(encoded);
+			//TODO: based on the type of report append proper file extension
 			
-			File tempFile = null;
-
-			try(ByteArrayInputStream bais = new ByteArrayInputStream(decoded)){
-				//2. create a temp file
-				tempFile = File.createTempFile("chart", ".png");
-				
-				//3. convert the input stream to image
-				RenderedImage renderedImage = ImageIO.read(bais);
-				
-				//4. write image to temp file
-				ImageIO.write(renderedImage, "png", tempFile);
-				
-				//5. publish to the user configured publish target(s)
-				errorList.addAll(publish(reportDisplayName+".png", tempFile));
-				
-			}
-			catch(IOException e){
-				LOG.error("Failed convert stream to image ", e);
-				errorList.add("Convert image ");
-			}
-			finally{
-				if(tempFile!=null){
-					//remove the temp file
-					tempFile.delete();
+			//1. build publish list
+			List<Publish> publishList = buildPublishList(reportDisplayName+".png",encoded);
+			
+			for(Publish publish: publishList){
+				try{
+					//2. invoke publish API
+					publishService.publish(publish);
 				}
-			}
-			
-			if(!errorList.isEmpty()){
-				//TODO: ui handle failed services
-			}
-			
-		}
-	}
-	
-	/**
-	 * @param publishName
-	 * @param reportImageFile
-	 */
-	private List<String> publish(String publishName, File reportImageFile) {
-		List<String> failedServiceNameList = new ArrayList<String>();
-		
-		//obtain user's pre-configured publish service(s) 
-		List<PublishService> userPublishServices = retrieveUserPublishServices();
-		
-		//prepare the param map required based on user credential
-		Map<String, Object> publishParamMap = preparePublishParamMap();
-		
-		for (PublishService publishService : userPublishServices) {
-			//perform publishing the report
-			try {
-				publishService.publish(publishName,reportImageFile,publishParamMap);
-			} catch (PublishServiceException e) {
-				LOG.warn("Service "+publishService.getServiceName()+" failed to publish",e);
-				failedServiceNameList.add(String.format("Publish to %s ",publishService.getServiceName()));
+				catch(PublishServiceException pse){
+					errorList.add(publish.getOption());
+				}	
 			}
 		}
 		
-		return failedServiceNameList;
+		if(!errorList.isEmpty()){
+		//TODO: ui handle failed services
+		}
+
 	}
 	
 	/**
 	 * 
+	 * @param publishName
+	 * @param base64Content
 	 * @return
 	 */
-	private List<PublishService> retrieveUserPublishServices(){
-		//TODO: obtain the configure publish service from user credential
+	private List<Publish> buildPublishList(String publishName, String base64Content){
+		List<Publish> publishList = new ArrayList<Publish>();
 		
-		List<PublishService> userPublishServices = new ArrayList<PublishService>();
+		//TODO: based on selected publish option build the publish list
 		
-		//TODO: replace the following temporary code
-		userPublishServices.add(new DropBoxPublishServiceImpl());
+		//TODO: replace this
+		Publish publish = new Publish();
+		publishList.add(publish);
+		publish.setOption("Drop Box");
+		publish.setPublishName(publishName);
 		
-		return userPublishServices;
+		Properties publishParams = new Properties();
+		publish.setParams(publishParams);
+		publishParams.put("base64Content", base64Content);
+		
+		return publishList;
 	}
 	
-	
-	private Map<String, Object> preparePublishParamMap(){
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		
-		String accessToken = System.getProperty("dropbox.access.token", "Y9xnDyZNbhAAAAAAAAAACHCXh3i41MnsYL5XJfyqsrTZ9LzoO0sg9BCacLo-9nlj");
-		//TODO: obtain required info from user credential
-		paramMap.put(DropBoxPublishServiceImpl.ACCESS_TOKEN, accessToken);
-		
-		return paramMap;
-		
-	}
 	/**
 	 * @return the pfChartModel
 	 */
