@@ -35,8 +35,8 @@ import org.reportbay.web.dto.reporttemplate.RestReportTemplate;
 import org.reportbay.web.dto.reporttemplate.TemplateSeries;
 import org.reportbay.web.service.model.ModelService;
 import org.reportbay.web.service.model.exception.ModelServiceException;
-import org.reportbay.web.service.reportgen.ReportGenService;
-import org.reportbay.web.service.reportgen.exception.ReportGenServiceException;
+import org.reportbay.web.service.report.ReportService;
+import org.reportbay.web.service.report.exception.ReportServiceException;
 import org.reportbay.web.service.reporttemplate.ReportTemplateService;
 import org.reportbay.web.service.reporttemplate.exception.ReportTemplateServiceException;
 import org.reportbay.web.util.ReportUtil;
@@ -85,7 +85,7 @@ public class ReportTemplateWizardBean implements Serializable{
 	private ReportTemplateService reportTemplateService;
 
 	@Inject 
-	private ReportGenService reportGenService;
+	private ReportService reportService;
 	
 	@PostConstruct
 	public void init() {
@@ -334,7 +334,7 @@ public class ReportTemplateWizardBean implements Serializable{
 	 * 
 	 * @param event
 	 * @return
-	 * @throws ReportGenServiceException 
+	 * @throws ReportServiceException 
 	 */
 	public String onFlowProcess(FlowEvent event) {
 		//if transistion from tab "configuration" to "preview"
@@ -346,7 +346,7 @@ public class ReportTemplateWizardBean implements Serializable{
 			catch(ReportTemplateServiceException rtse){
 				LOG.error("failed convert ui to REST for report preview generation", rtse);
 			}
-			catch(ReportGenServiceException rgse){
+			catch(ReportServiceException rgse){
 				LOG.error("failed report preview generation", rgse);
 				//TODO: handling
 			}
@@ -359,11 +359,11 @@ public class ReportTemplateWizardBean implements Serializable{
 	}
 	
 	/**
-	 * @throws ReportGenServiceException 
+	 * @throws ReportServiceException 
 	 * @throws ReportTemplateServiceException 
 	 * 
 	 */
-	private void generatePreview() throws ReportGenServiceException, ReportTemplateServiceException{
+	private void generatePreview() throws ReportServiceException, ReportTemplateServiceException{
 		ChartTypeEnum chartType = ChartTypeEnum.fromName(selectedChartType);
 		
 		if(chartType!=null){
@@ -384,7 +384,7 @@ public class ReportTemplateWizardBean implements Serializable{
 		}
 		
 		RestReportTemplate restReportTemplate = reportTemplateService.mapUIToRestReportTemplate(reportTemplate);
-		Report report = reportGenService.generateReportPreview(restReportTemplate);
+		Report report = reportService.generateReportPreview(restReportTemplate);
 		
 		if(report!=null){
 			String type = report.getType();

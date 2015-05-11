@@ -14,16 +14,25 @@
 			<p:layoutUnit position="center">
 				<h:form id="centerForm">
 					<f:event type="preRenderView" listener="#{reportListBean.init}"/>
-					<p:dataList value="#{reportListBean.reportList}" var="report" paginator="true" itemType="decimal" rows="20" itemStyleClass="font-size-medium">
+					<p:dataTable value="#{reportListBean.reportList}" var="report" 
+								 paginator="true" rows="20" itemStyleClass="font-size-medium"
+								 rowsPerPageTemplate="5,10,20">
 						<f:facet name="header">
 							Available Report(s)
 						</f:facet>
-						<p:commandLink title="Display Report Detail" actionListener="#{reportListBean.displayReportDetails}"
-									   style="float:left;margin-right:10px;">
-	            			<h:outputText value="#{report.reportDisplayName}" styleClass="font-size-medium"/>
-	            			<f:attribute name="viewReport" value="#{report}"/>
-	            		</p:commandLink>
-					</p:dataList>
+						
+						<p:column headerText="Report Name">
+							<p:commandLink title="Display Report Detail" actionListener="#{reportListBean.displayReportDetails}"
+										   style="float:left;margin-right:10px;">
+		            			<h:outputText value="#{report.reportName}" styleClass="font-size-medium"/>
+		            			<f:attribute name="viewReport" value="#{report}"/>
+		            		</p:commandLink>
+		            	</p:column>
+		            	
+		            	<p:column headerText="Creation Date">
+		            		<h:outputText value="#{report.creationDate}" styleClass="font-size-medium"/>
+		            	</p:column>
+					</p:dataTable>
 				</h:form>
 			</p:layoutUnit>
 		</p:layout>

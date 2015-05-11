@@ -20,8 +20,8 @@ import org.reportbay.web.dto.reporttemplate.ReportTemplate;
 import org.reportbay.web.dto.reporttemplate.RestReportTemplate;
 import org.reportbay.web.service.publish.PublishService;
 import org.reportbay.web.service.publish.exception.PublishServiceException;
-import org.reportbay.web.service.reportgen.ReportGenService;
-import org.reportbay.web.service.reportgen.exception.ReportGenServiceException;
+import org.reportbay.web.service.report.ReportService;
+import org.reportbay.web.service.report.exception.ReportServiceException;
 import org.reportbay.web.service.reporttemplate.ReportTemplateService;
 import org.reportbay.web.service.reporttemplate.exception.ReportTemplateServiceException;
 import org.reportbay.web.util.ReportUtil;
@@ -51,7 +51,7 @@ public class DisplayReportBean implements Serializable{
 	private String reportDisplayName;
 	
 	@Inject
-	private ReportGenService reportGenService;
+	private ReportService reportService;
 	
 	@Inject
 	private ReportTemplateService reportTemplateService;
@@ -63,60 +63,35 @@ public class DisplayReportBean implements Serializable{
 		// Retrieve the params passed via Dialog Framework.
 		Map<String, String> requestParams = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String templateIdStr = requestParams.get("templateId");
+		String reportIdStr = requestParams.get("reportId");
+		int templateId = 0, reportId = 0;
 		
+		//if templateIdString present
 		if(templateIdStr!=null){
-			try {
-				int templateId = Integer.valueOf(templateIdStr);
-				
-				ReportTemplate reportTemplate = reportTemplateService.find(templateId);
-				
-				RestReportTemplate restReportTemplate = reportTemplateService.mapUIToRestReportTemplate(reportTemplate);
-				
-				chartType = reportTemplate.getChartType().getCode();
-				reportDisplayName = reportTemplate.getReportDisplayName();
-				
-				Report report = reportGenService.generateReportPreview(restReportTemplate);
-	
-				if(report!=null){
-					String type = report.getType();
-					
-					ChartTypeEnum refChartType = ChartTypeEnum.fromName(type);
-					
-					if(refChartType!=null){
-						switch(refChartType){
-							case AREA:
-								pfChartModel = ReportUtil.mapAreaReportToPFModel(report.getCartesianChartReport());
-								break;
-							case BAR:
-								pfChartModel = ReportUtil.mapBarReportToPFModel(report.getCartesianChartReport());
-								break;
-							case COLUMN:
-								pfChartModel = ReportUtil.mapColumnReportToPFModel(report.getCartesianChartReport());
-								break;
-							case LINE:
-								pfChartModel = ReportUtil.mapLineReportToPFModel(report.getCartesianChartReport());
-								break;
-							case PIE:
-								pfChartModel = ReportUtil.mapPieReportToPFModel(report.getPieChartReport());
-								break;
-							default:
-								//TODO: handling unrecognized type
-								break;
-						}
-					}
-					else{
-						//TODO: error handling
-					}
-				}
-				
-			} catch (NumberFormatException e) {
+			try{
+				templateId = Integer.valueOf(templateIdStr);
+			}
+			catch (NumberFormatException e) {
 				LOG.error("invalid template id {}",templateIdStr, e);
-			} catch (ReportGenServiceException | ReportTemplateServiceException e) {
-				LOG.error("error generating report ",e);
 			} 
 		}
-		else{
-			LOG.warn("template id is null, skipped");
+
+		//if valid templateId, generate preview by template
+		if(templateId>0){
+			generateReportPreviewFromTemplate(templateId);
+		}
+		//otherwise check if report id present
+		else if(reportIdStr!=null){
+			try{
+				reportId = Integer.valueOf(reportIdStr);
+			}
+			catch (NumberFormatException e) {
+				LOG.error("invalid report id {}",reportIdStr, e);
+			}
+			//if valid reportId, retrieve snap shot report preview by id
+			if(reportId>0){
+				generateReportPreviewFromSnapshot(reportId);
+			}
 		}
 	}
 
@@ -151,6 +126,82 @@ public class DisplayReportBean implements Serializable{
 
 	}
 	
+	/***** private methods ****************/
+	/**
+	 * 
+	 * @param reportId
+	 */
+	private void generateReportPreviewFromSnapshot(int reportId){
+		try {
+			Report report = reportService.retrieveSnapShotReport(reportId);
+			
+			mapReportToUI(report);
+		}
+		catch (ReportServiceException rse) {
+			LOG.error("error generating report ",rse);
+		} 
+	}
+	
+	/**
+	 * 
+	 * @param templateId
+	 */
+	private void generateReportPreviewFromTemplate(int templateId){
+		try {
+			ReportTemplate reportTemplate = reportTemplateService.find(templateId);
+			
+			RestReportTemplate restReportTemplate = reportTemplateService.mapUIToRestReportTemplate(reportTemplate);
+			
+			chartType = reportTemplate.getChartType().getCode();
+			reportDisplayName = reportTemplate.getReportDisplayName();
+			
+			Report report = reportService.generateReportPreview(restReportTemplate);
+
+			mapReportToUI(report);
+			
+		}
+		catch (ReportServiceException | ReportTemplateServiceException e) {
+			LOG.error("error generating report ",e);
+		} 
+	}
+	
+	/**
+	 * 
+	 * @param report
+	 */
+	private void mapReportToUI(Report report){
+		if(report!=null){
+			String type = report.getType();
+			
+			ChartTypeEnum refChartType = ChartTypeEnum.fromName(type);
+			
+			if(refChartType!=null){
+				switch(refChartType){
+					case AREA:
+						pfChartModel = ReportUtil.mapAreaReportToPFModel(report.getCartesianChartReport());
+						break;
+					case BAR:
+						pfChartModel = ReportUtil.mapBarReportToPFModel(report.getCartesianChartReport());
+						break;
+					case COLUMN:
+						pfChartModel = ReportUtil.mapColumnReportToPFModel(report.getCartesianChartReport());
+						break;
+					case LINE:
+						pfChartModel = ReportUtil.mapLineReportToPFModel(report.getCartesianChartReport());
+						break;
+					case PIE:
+						pfChartModel = ReportUtil.mapPieReportToPFModel(report.getPieChartReport());
+						break;
+					default:
+						//TODO: handling unrecognized type
+						break;
+				}
+			}
+			else{
+				//TODO: error handling
+			}
+		}
+	}
 	/**
 	 * 
 	 * @param publishName

@@ -181,7 +181,7 @@ public class ModelServiceImpl extends RestServiceBaseImpl implements ModelServic
 		final Entity<Model> entity = Entity.entity(model, MediaType.APPLICATION_JSON_TYPE);
 				
 		try{
-			Response response = webTarget.path("/deriveModelAttributes")
+			Response response = webTarget.path("/derivemodelattributes")
 							       	     //accept application/json
 					 		       	 	 .request(MediaType.APPLICATION_JSON_TYPE)
 					 		       	 	 //PUT method with request body
@@ -208,7 +208,7 @@ public class ModelServiceImpl extends RestServiceBaseImpl implements ModelServic
 		
 		try{
 			
-			WebTarget previewWebTarget = webTarget.path("/generatePreview");
+			WebTarget previewWebTarget = webTarget.path("/preview");
 			
 			if(maxRow>0){
 				previewWebTarget = previewWebTarget.queryParam("maxRow", maxRow);
@@ -234,7 +234,7 @@ public class ModelServiceImpl extends RestServiceBaseImpl implements ModelServic
 		
 		try{
 			
-			WebTarget previewWebTarget = webTarget.path("/{modelId}/uniqueDataField") 
+			WebTarget previewWebTarget = webTarget.path("/{modelId}/uniquedatafield") 
 										 		  //bind modelId to {modelId}
 		 										  .resolveTemplate("modelId", modelId)
 		 										  //query string

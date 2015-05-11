@@ -24,8 +24,8 @@ import org.reportbay.web.common.ChartTypeEnum;
 import org.reportbay.web.dto.reportgen.Report;
 import org.reportbay.web.dto.reporttemplate.LiteReportTemplate;
 import org.reportbay.web.dto.reporttemplate.ReportTemplate;
-import org.reportbay.web.service.reportgen.ReportGenService;
-import org.reportbay.web.service.reportgen.exception.ReportGenServiceException;
+import org.reportbay.web.service.report.ReportService;
+import org.reportbay.web.service.report.exception.ReportServiceException;
 import org.reportbay.web.service.reporttemplate.ReportTemplateService;
 import org.reportbay.web.service.reporttemplate.exception.ReportTemplateServiceException;
 import org.reportbay.web.util.ReportUtil;
@@ -54,7 +54,7 @@ public class MaintainReportTemplateBean implements Serializable {
 	private List<LiteReportTemplate> filteredReportTemplateList = new ArrayList<LiteReportTemplate>();
 	
 	@Inject
-	private ReportGenService reportGenService;
+	private ReportService reportService;
 
 	@Inject
 	private ReportTemplateService reportTemplateService;
@@ -112,7 +112,7 @@ public class MaintainReportTemplateBean implements Serializable {
 		catch (ReportTemplateServiceException rtse) {
 			LOG.error("failed to find all report template",rtse);
 		}
-		catch (ReportGenServiceException rgse){
+		catch (ReportServiceException rgse){
 			LOG.error("failed to generate report for default template",rgse);
 		}
 	}
@@ -350,7 +350,7 @@ public class MaintainReportTemplateBean implements Serializable {
 		} 
 		catch (ReportTemplateServiceException e) {
 			WebUtils.addErrorMessage("An error encountered retrieving details");
-		} catch (ReportGenServiceException e) {
+		} catch (ReportServiceException e) {
 			WebUtils.addErrorMessage("An error encountered generating preview details");
 		}
 	}
@@ -373,10 +373,10 @@ public class MaintainReportTemplateBean implements Serializable {
 	 * 
 	 * @param reportTemplateId
 	 * @throws ReportTemplateServiceException
-	 * @throws ReportGenServiceException
+	 * @throws ReportServiceException
 	 */
 	private void updateReportTemplateDetails(int reportTemplateId) 
-			throws ReportTemplateServiceException, ReportGenServiceException{
+			throws ReportTemplateServiceException, ReportServiceException{
 		reportTemplate = reportTemplateService.find(reportTemplateId);
 
 		//generate preview
@@ -386,14 +386,14 @@ public class MaintainReportTemplateBean implements Serializable {
 	/**
 	 * 
 	 * @param reportTemplate
-	 * @throws ReportGenServiceException
+	 * @throws ReportServiceException
 	 */
-	private void generatePreview(ReportTemplate reportTemplate) throws ReportGenServiceException{
+	private void generatePreview(ReportTemplate reportTemplate) throws ReportServiceException{
 		
 		chartModel = null;
 		
 		if(reportTemplate!=null){
-			Report report = reportGenService.generateReportByTemplateId(reportTemplate.getId());
+			Report report = reportService.generateReportByTemplateId(reportTemplate.getId());
 			
 			if(report!=null){
 				String type = report.getType();

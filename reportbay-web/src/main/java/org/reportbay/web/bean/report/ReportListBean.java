@@ -12,9 +12,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
-import org.reportbay.web.dto.reporttemplate.LiteReportTemplate;
-import org.reportbay.web.service.reporttemplate.ReportTemplateService;
-import org.reportbay.web.service.reporttemplate.exception.ReportTemplateServiceException;
+import org.reportbay.web.dto.report.LiteReport;
+import org.reportbay.web.service.report.ReportService;
+import org.reportbay.web.service.report.exception.ReportServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,13 +32,11 @@ public class ReportListBean implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
-	//TODO: replaced with report service
 	@Inject
-	private ReportTemplateService reportTemplateService;
+	private ReportService reportService;
 	
 
-	private List<LiteReportTemplate> reportList = new ArrayList<LiteReportTemplate>();
+	private List<LiteReport> reportList = new ArrayList<LiteReport>();
 	
 	public void init() {
 		buildReportList();
@@ -47,7 +45,7 @@ public class ReportListBean implements Serializable{
 	/**
 	 * @return the reportList
 	 */
-	public List<LiteReportTemplate> getReportList() {
+	public List<LiteReport> getReportList() {
 		
 		return reportList;
 	}
@@ -55,7 +53,7 @@ public class ReportListBean implements Serializable{
 	/**
 	 * @param reportList the reportList to set
 	 */
-	public void setReportList(List<LiteReportTemplate> reportList) {
+	public void setReportList(List<LiteReport> reportList) {
 		this.reportList = reportList;
 	}
 	
@@ -63,9 +61,9 @@ public class ReportListBean implements Serializable{
 		try{
 			reportList.clear();
 		
-			reportList.addAll(reportTemplateService.findAll());
+			reportList.addAll(reportService.getReports());
 		}
-		catch(ReportTemplateServiceException rtse){
+		catch(ReportServiceException rtse){
 			LOG.error("failed to find all report template");
 		}
 	}
@@ -76,13 +74,15 @@ public class ReportListBean implements Serializable{
 	 */
 	public void displayReportDetails(ActionEvent actionEvent){
 		Object obj = actionEvent.getComponent().getAttributes().get("viewReport");
+		LiteReport liteReport = (LiteReport)obj;
 				
 		Map<String, List<String>> requestParams = new HashMap<String, List<String>>();
 		
 		requestParams.put("templateId", new ArrayList<String>());
-		requestParams.put("templateType", new ArrayList<String>());
+		requestParams.put("reportId", new ArrayList<String>());
 		
-		requestParams.get("templateId").add(String.valueOf(((LiteReportTemplate)obj).getId()));
+		requestParams.get("templateId").add(String.valueOf(liteReport.getTemplateId()));
+		requestParams.get("reportId").add(String.valueOf(liteReport.getId()));
 		
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("modal", true);
